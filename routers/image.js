@@ -14,14 +14,14 @@ router.get('/', async (req, res) => {
 	}
 })
 
-// show images with valid credentials
+// show images with valid credentials example
 router.get('/auth/messy', async (req, res, next) => {
 	const auth = req.headers.authorization && req.headers.authorization.split(' ')
 	if (auth && auth[0] === 'Bearer' && auth[1]) {
 		try {
 			const data = toData(auth[1])
 		} catch (e) {
-			res.status(400).send('Invalid JWT token, sketchy.')
+			res.status(400).send({ message: 'Invalid JWT token, sketchy.' })
 		}
 		const allImages = await Image.findAll()
 		res.json(allImages)
@@ -57,7 +57,9 @@ router.get('/:imageId', async (req, res) => {
 	const imageId = parseInt(req.params.imageId)
 	const image = await Image.findByPk(imageId)
 	if (!image) {
-		res.status(404).send('Image not found, weird stuff, try again!')
+		res
+			.status(404)
+			.send({ message: 'Image not found, weird stuff, try again!' })
 	} else {
 		res.send(image)
 	}

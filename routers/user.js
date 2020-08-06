@@ -15,7 +15,7 @@ router.post('/', async (req, res, next) => {
 	try {
 		const { email, password, fullName } = req.body
 		if (!email || !password || !fullName) {
-			res.status(400).send('missing parameters partner')
+			res.status(400).send({ message: 'missing parameters partner' })
 		} else {
 			const newUser = await User.create({
 				email,
@@ -34,7 +34,7 @@ router.get('/:userId', async (req, res) => {
 	const userId = parseInt(req.params.userId)
 	const user = await User.findByPk(userId)
 	if (!user) {
-		res.status(404).send('User not found')
+		res.status(404).send({ message: 'User not found' })
 	} else {
 		res.send(user)
 	}
