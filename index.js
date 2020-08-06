@@ -4,9 +4,11 @@ const jsonParser = express.json()
 
 app.use(jsonParser)
 
+const loginRouter = require('./routers/auth')
 const userRouter = require('./routers/user')
 const imageRouter = require('./routers/image')
 
+app.use('/auth', loginRouter)
 app.use('/users', userRouter)
 app.use('/images', imageRouter)
 
