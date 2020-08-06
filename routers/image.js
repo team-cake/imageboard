@@ -11,24 +11,22 @@ const Image = require('../models').image
 // })
 
 // show images with valid credentials
-router.get("/auth/messy", async (req, res, next) => {
-	const auth = req.headers.authorization && req.headers.authorization.split(" ");
-	if (auth && auth[0] === "Bearer" && auth[1]) {
-	  try {
-		  console.log('this', toData[1])
-		const data = toData(auth[1]);
-		// console.log('do we get here')
-	  } catch (e) {
-		res.status(400).send("Invalid JWT token");
-	  }
-	  const allImages = await Image.findAll();
-	  res.json(allImages);
+router.get('/auth/messy', async (req, res, next) => {
+	const auth = req.headers.authorization && req.headers.authorization.split(' ')
+	if (auth && auth[0] === 'Bearer' && auth[1]) {
+		try {
+			const data = toData(auth[1])
+		} catch (e) {
+			res.status(400).send('Invalid JWT token, sketchy.')
+		}
+		const allImages = await Image.findAll()
+		res.json(allImages)
 	} else {
-	  res.status(401).send({
-		message: "Please supply some valid credentials",
-	  });
+		res.status(401).send({
+			message: 'Please supply some valid credentials, partner..',
+		})
 	}
-  });
+})
 
 // get all images with limit, offset and findAndCountAll
 router.get('/', (req, res, next) => {
@@ -55,7 +53,7 @@ router.get('/:imageId', async (req, res) => {
 	const imageId = parseInt(req.params.imageId)
 	const image = await Image.findByPk(imageId)
 	if (!image) {
-		res.status(404).send('Image not found')
+		res.status(404).send('Image not found, weird stuff, try again!')
 	} else {
 		res.send(image)
 	}
