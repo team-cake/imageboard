@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 
 const User = require('../models').user
 
+// get all users
 router.get('/', async (req, res) => {
 	const users = await User.findAll()
 	res.send(users)
@@ -26,6 +27,17 @@ router.post('/', async (req, res, next) => {
 		}
 	} catch (e) {
 		next(e)
+	}
+})
+
+// get one specific user
+router.get('/:userId', async (req, res) => {
+	const userId = parseInt(req.params.userId)
+	const user = await User.findByPk(userId)
+	if (!user) {
+		res.status(404).send('User not found')
+	} else {
+		res.send(user)
 	}
 })
 
