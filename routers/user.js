@@ -15,12 +15,11 @@ router.post('/', async (req, res, next) => {
 	try {
 		const { email, password, fullName } = req.body
 		if (!email || !password || !fullName) {
-			res.status(400).send('missing parameters')
+			res.status(400).send('missing parameters partner')
 		} else {
-			const hashedPassword = bcrypt.hashSync(password, 10)
 			const newUser = await User.create({
 				email,
-				password: hashedPassword,
+				password: bcrypt.hashSync(password, 10),
 				fullName,
 			})
 			res.json(newUser)
