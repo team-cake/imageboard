@@ -1,14 +1,18 @@
 const { Router } = require('express')
 const router = new Router()
-
-const { toData } = require('../auth/jwt')
+// const authMiddleware = require('../auth/middleware')
+const { toJWT, toData } = require('../auth/jwt')
 const Image = require('../models').image
 
 // get all images
-// router.get('/', async (req, res) => {
-// 	const images = await Image.findAll()
-// 	res.send(images)
-// })
+router.get('/', async (req, res) => {
+	try {
+		const images = await Image.findAll()
+		res.json(images)
+	} catch (e) {
+		next(e)
+	}
+})
 
 // show images with valid credentials
 router.get('/auth/messy', async (req, res, next) => {
